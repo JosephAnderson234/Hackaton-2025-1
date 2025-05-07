@@ -1,6 +1,6 @@
 package com.example.hacktanton1.domain.service;
 
-import com.example.hack1.repository.UsuarioRepository;
+import com.example.hacktanton1.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

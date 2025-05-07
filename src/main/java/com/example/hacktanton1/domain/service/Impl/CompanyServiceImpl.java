@@ -1,9 +1,9 @@
 package com.example.hacktanton1.domain.service.Impl;
 
-import com.example.hack1.domain.model.Company;
-import com.example.hack1.domain.service.CompanyService;
-import com.example.hack1.dto.CompanyDto;
-import com.example.hack1.repository.CompanyRepository;
+import com.example.hacktanton1.domain.model.Company;
+import com.example.hacktanton1.domain.service.CompanyService;
+import com.example.hacktanton1.dto.CompanyDto;
+import com.example.hacktanton1.repository.CompanyRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.example.hacktanton1.config;
 
-import com.example.hack1.domain.service.UserDetailsServiceImpl;
+import com.example.hacktanton1.domain.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

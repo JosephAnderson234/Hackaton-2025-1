@@ -1,9 +1,9 @@
 package com.example.hacktanton1.domain.service;
 
-import com.example.hack1.domain.model.Usuario;
-import com.example.hack1.dto.JwtAuthenticationResponse;
-import com.example.hack1.dto.SigninRequest;
-import com.example.hack1.repository.UsuarioRepository;
+import com.example.hacktanton1.domain.model.Usuario;
+import com.example.hacktanton1.dto.JwtAuthenticationResponse;
+import com.example.hacktanton1.dto.SigninRequest;
+import com.example.hacktanton1.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

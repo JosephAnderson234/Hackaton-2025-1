@@ -1,6 +1,6 @@
 package com.example.hacktanton1.domain.service;
 
-import com.example.hack1.dto.CompanyDto;
+import com.example.hacktanton1.dto.CompanyDto;
 
 import java.util.List;
 

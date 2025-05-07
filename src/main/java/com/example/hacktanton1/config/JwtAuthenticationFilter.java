@@ -1,7 +1,7 @@
 package com.example.hacktanton1.config;
 
-import com.example.hack1.domain.service.JwtService;
-import com.example.hack1.domain.service.UserDetailsServiceImpl;
+import com.example.hacktanton1.domain.service.JwtService;
+import com.example.hacktanton1.domain.service.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

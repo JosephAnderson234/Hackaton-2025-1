@@ -29,7 +29,7 @@ public class Company {
     @Column(nullable = false)
     private boolean active;
 
-    //cada empresa tiene un administrador princiapl ( se lo toma como rol)
+    //cada empresa tiene un administrador principal (se lo toma como rol)
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "company_admin_id", referencedColumnName = "id")
     private Usuario companyAdmin;

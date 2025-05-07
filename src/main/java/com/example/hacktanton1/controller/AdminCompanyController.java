@@ -1,7 +1,7 @@
 package com.example.hacktanton1.controller;
 
-import com.example.hack1.domain.service.CompanyService;
-import com.example.hack1.dto.CompanyDto;
+import com.example.hacktanton1.domain.service.CompanyService;
+import com.example.hacktanton1.dto.CompanyDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
