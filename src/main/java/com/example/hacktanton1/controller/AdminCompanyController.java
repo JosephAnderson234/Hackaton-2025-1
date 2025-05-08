@@ -16,7 +16,7 @@ public class AdminCompanyController {
     public AdminCompanyController(CompanyService companyService) {
         this.companyService = companyService;
     }
-    @PreAuthorize("hasRole('ROLE_SPARKY_ADMIN')")
+    //@PreAuthorize("hasRole('SPARKY_ADMIN')")
     @PostMapping
     public ResponseEntity<CompanyDto> createcompany(@RequestBody CompanyDto dto) {
         CompanyDto created = companyService.create(dto);
