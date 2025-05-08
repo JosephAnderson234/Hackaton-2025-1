@@ -10,5 +10,5 @@ public class CompanyRestrictionDto {
     private Long maxRequests;
     private Long maxTokens;
     private Integer windowSeconds;
-    private String modelName; // opcional, si deseas mostrarlo
+    private String modelName;
 }

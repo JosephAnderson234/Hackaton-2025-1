@@ -128,5 +128,21 @@ public class RequestIAService {
         return modelosIARepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Modelo IA no encontrado"));
     }
+
+    public ModelosIADto createModel(ModelosIADto model){
+        ModelosIA modelo = new ModelosIA();
+        modelo.setName(model.getName());
+        modelo.setProvider(model.getProvider());
+        modelo.setType(model.getType());
+        ModelosIA newModel = modelosIARepository.save(modelo);
+
+        ModelosIADto dto = new ModelosIADto();
+        dto.setId(newModel.getId());
+        dto.setName(newModel.getName());
+        dto.setProvider(newModel.getProvider());
+        dto.setType(newModel.getType());
+
+        return dto;
+    }
 }
 

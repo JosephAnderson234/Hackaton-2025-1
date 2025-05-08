@@ -69,6 +69,7 @@ public class CompanyRestrictionServiceImpl implements CompanyRestrictionService 
         CompanyRestriction r = restrictionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Restriction not found"));
 
+        r.setId(id);
         r.setMaxRequests(dto.getMaxRequests());
         r.setMaxTokens(dto.getMaxTokens());
         r.setWindowSeconds(dto.getWindowSeconds());

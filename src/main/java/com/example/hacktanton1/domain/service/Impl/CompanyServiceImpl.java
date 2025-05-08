@@ -119,6 +119,7 @@ public class CompanyServiceImpl implements CompanyService {
         RoleType adminRole = RoleType.ROLE_COMPANY_ADMIN;
         admin.setRole(adminRole);
         c.setCompanyAdmin(admin);
+        admin.setCompany(c);
         JwtAuthenticationResponse tokenRes = authenticationService.signup(admin);
         companyRepository.save(c);
 

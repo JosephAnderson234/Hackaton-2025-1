@@ -49,4 +49,9 @@ public class RequestIAController {
         dto.setType(model.getType());
         return ResponseEntity.ok(dto);
     }
+
+    @PostMapping("/models")
+    public ResponseEntity<ModelosIADto> createModel(@RequestBody ModelosIADto dto) {
+        return ResponseEntity.ok(requestIAService.createModel(dto));
+    }
 }

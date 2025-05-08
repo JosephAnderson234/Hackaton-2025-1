@@ -18,25 +18,25 @@ public class CompanyRestrictionController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_COMPANY_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_COMPANY_ADMIN') OR hasRole('ROLE_SPARKY_ADMIN')")
     public ResponseEntity<CompanyRestrictionDto> create(@RequestBody CompanyRestrictionDto dto) {
         return ResponseEntity.ok(restrictionService.create(dto));
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_COMPANY_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_COMPANY_ADMIN') OR hasRole('ROLE_SPARKY_ADMIN')")
     public ResponseEntity<List<CompanyRestrictionDto>> list() {
         return ResponseEntity.ok(restrictionService.findAll());
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_COMPANY_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_COMPANY_ADMIN') OR hasRole('ROLE_SPARKY_ADMIN')")
     public ResponseEntity<CompanyRestrictionDto> update(@PathVariable Long id, @RequestBody CompanyRestrictionDto dto) {
         return ResponseEntity.ok(restrictionService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_COMPANY_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_COMPANY_ADMIN') OR hasRole('ROLE_SPARKY_ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         restrictionService.delete(id);
         return ResponseEntity.noContent().build();

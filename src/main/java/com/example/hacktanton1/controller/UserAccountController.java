@@ -14,6 +14,7 @@ public class UserAccountController {
     @Autowired
     UserAccountService service;
 
+
     @GetMapping
     public ResponseEntity<List<Usuario>> list() {
         return ResponseEntity.ok(service.list());
