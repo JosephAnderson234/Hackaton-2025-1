@@ -2,6 +2,8 @@ package com.example.hacktanton1.controller;
 
 import com.example.hacktanton1.domain.service.CompanyService;
 import com.example.hacktanton1.dto.CompanyDto;
+import com.example.hacktanton1.dto.CompanyResponseDto;
+import com.example.hacktanton1.dto.CreateCompanyWithAdminDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,17 +18,20 @@ public class AdminCompanyController {
     public AdminCompanyController(CompanyService companyService) {
         this.companyService = companyService;
     }
-    //@PreAuthorize("hasRole('SPARKY_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_SPARKY_ADMIN')")
     @PostMapping
-    public ResponseEntity<CompanyDto> createcompany(@RequestBody CompanyDto dto) {
-        CompanyDto created = companyService.create(dto);
+    public ResponseEntity<CompanyResponseDto> createcompany(@RequestBody CreateCompanyWithAdminDto request) {
+        CompanyResponseDto created = companyService.createWithAdmin(request.getCompany(), request.getAdminUsername(), request.getAdminEmail(), request.getAdminPassword());
         return ResponseEntity.ok(created);
     }
-    @PreAuthorize("hasRole('ROLE_SPARKY_ADMIN')")
+
+    @PreAuthorize("hasRole('ROLE_SPARKY_ADMIN')" )
     @GetMapping
     public ResponseEntity<List<CompanyDto>> listALL() {
         return ResponseEntity.ok(companyService.findALL());
     }
+
+
     @PreAuthorize("hasRole('ROLE_SPARKY_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<CompanyDto> getById(@PathVariable Long id) {

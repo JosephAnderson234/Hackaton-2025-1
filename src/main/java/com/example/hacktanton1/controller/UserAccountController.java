@@ -22,7 +22,6 @@ public class UserAccountController {
     @PostMapping
     public ResponseEntity<Void> save(@RequestBody Usuario user) {
         service.save(user);
-
         return ResponseEntity.ok().build();
     }
 }

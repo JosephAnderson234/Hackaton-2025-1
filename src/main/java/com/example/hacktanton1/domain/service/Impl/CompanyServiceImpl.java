@@ -1,8 +1,13 @@
 package com.example.hacktanton1.domain.service.Impl;
 
 import com.example.hacktanton1.domain.model.Company;
+import com.example.hacktanton1.domain.model.RoleType;
+import com.example.hacktanton1.domain.model.Usuario;
+import com.example.hacktanton1.domain.service.AuthenticationService;
 import com.example.hacktanton1.domain.service.CompanyService;
 import com.example.hacktanton1.dto.CompanyDto;
+import com.example.hacktanton1.dto.CompanyResponseDto;
+import com.example.hacktanton1.dto.JwtAuthenticationResponse;
 import com.example.hacktanton1.repository.CompanyRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -14,8 +19,10 @@ import java.util.Map;
 @Transactional
 public class CompanyServiceImpl implements CompanyService {
     private final CompanyRepository companyRepository;
-    public CompanyServiceImpl(CompanyRepository companyRepo) {
+    private final AuthenticationService authenticationService;
+    public CompanyServiceImpl(CompanyRepository companyRepo, AuthenticationService authenticationService) {
         this.companyRepository = companyRepo;
+        this.authenticationService = authenticationService;
     }
     @Override
     public CompanyDto create(CompanyDto dto) {
@@ -97,5 +104,29 @@ public class CompanyServiceImpl implements CompanyService {
                 "tokensUsed", 12400
         );
     }
+
+    @Override
+    public CompanyResponseDto createWithAdmin(CompanyDto company, String adminUsername, String adminEmail, String adminPassword) {
+        Company c = new Company();
+        c.setName(company.getName());
+        c.setRuc(company.getRuc());
+        c.setAffiliationDate(company.getAffiliationDate());
+        c.setActive(company.isActive());
+        Usuario admin = new Usuario();
+        admin.setUsername(adminUsername);
+        admin.setEmail(adminEmail);
+        admin.setPassword(adminPassword);
+        RoleType adminRole = RoleType.ROLE_COMPANY_ADMIN;
+        admin.setRole(adminRole);
+        c.setCompanyAdmin(admin);
+        JwtAuthenticationResponse tokenRes = authenticationService.signup(admin);
+        companyRepository.save(c);
+
+        CompanyResponseDto out = new CompanyResponseDto();
+        out.setResCompany(company);
+        out.setJwtAuthenticationResponse(tokenRes);
+        return out;
+    }
+
 
 }

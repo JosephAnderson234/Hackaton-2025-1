@@ -11,9 +11,20 @@ import com.example.hacktanton1.repository.ModelosIARepository;
 import com.example.hacktanton1.repository.RequestIARepository;
 import com.example.hacktanton1.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.azure.ai.inference.ChatCompletionsClient;
+import com.azure.ai.inference.ChatCompletionsClientBuilder;
+import com.azure.ai.inference.models.ChatCompletions;
+import com.azure.ai.inference.models.ChatCompletionsOptions;
+import com.azure.ai.inference.models.ChatRequestMessage;
+import com.azure.ai.inference.models.ChatRequestSystemMessage;
+import com.azure.ai.inference.models.ChatRequestUserMessage;
+import com.azure.core.credential.AzureKeyCredential;
+
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 @Service
@@ -24,28 +35,59 @@ public class RequestIAService {
     private final ModelosIARepository modelosIARepository;
     private final UsuarioRepository usuarioRepository;
 
+    String endpoint = "https://models.github.ai/inference";
+    @Value("${github-token}")
+    String key;
+
     public RequestIAResponseDto makeRequest(Long userId, RequestIARequestDto dto) {
         Usuario usuario = usuarioRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
 
         ModelosIA modelo = modelosIARepository.findById(dto.getModelId())
                 .orElseThrow(() -> new IllegalArgumentException("Modelo IA no encontrado"));
-
         RequestIA request = new RequestIA();
         request.setUsuario(usuario);
         request.setModel(modelo);
         request.setQuery(dto.getQuery());
-        request.setTokensUsed((long) (Math.random() * 1000));
+
         request.setTimestamp(LocalDateTime.now());
 
-        // Simulación de respuesta
-        request.setResponse("Respuesta simulada para la consulta: " + dto.getQuery());
 
+        String query = dto.getQuery();
         if (dto.getType().equalsIgnoreCase("multimodal") && dto.getImageBase64() != null) {
-            request.setImageFileName("imagen-simulada.png");
+            request.setImageFileName("imagen-subida.png");
+            query = "Imagen subida en base 64: " + dto.getImageBase64() + ". Consulta: " + dto.getQuery();
         }
 
+        request.setTokensUsed((long) (dto.getQuery().length() * 0.5 + (dto.getImageBase64() != null ? dto.getImageBase64().length() * 0.1 : 0)));
+        ChatCompletionsClient client = new ChatCompletionsClientBuilder()
+                .credential(new AzureKeyCredential(key))
+                .endpoint(endpoint)
+                .buildClient();
+
+
+
+        List<ChatRequestMessage> chatMessages = Arrays.asList(
+                new ChatRequestSystemMessage("You are a helpful assistant."),
+                new ChatRequestUserMessage(query)
+        );
+
+        ChatCompletionsOptions chatCompletionsOptions = new ChatCompletionsOptions(chatMessages);
+        chatCompletionsOptions.setModel(modelo.getProvider());
+
+        ChatCompletions completions = client.complete(chatCompletionsOptions);
+
+        String response = completions.getChoice().getMessage().getContent();
+
+
+
+        request.setResponse(response);
         requestIARepository.save(request);
+
+
+
+
+
 
         RequestIAResponseDto responseDto = new RequestIAResponseDto();
         responseDto.setModelName(modelo.getName());
